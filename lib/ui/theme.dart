@@ -27,7 +27,7 @@ class Themes {
 TextStyle get subHeadingStyle {
   return GoogleFonts.lato(
     textStyle: TextStyle(
-      fontSize: 16,
+      fontSize: 20,
       fontWeight: FontWeight.bold,
       color: Get.isDarkMode ? Colors.grey[400] : Colors.grey,
     ),
@@ -41,5 +41,24 @@ TextStyle get HeadingStyle {
       fontWeight: FontWeight.bold,
       color: Get.isDarkMode ? Colors.white : Colors.black,
     ),
+  );
+}
+
+TextStyle get TitleStyle {
+  return GoogleFonts.lato(
+    textStyle: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+      color: Get.isDarkMode ? Colors.white : Colors.black,
+    ),
+  );
+}
+
+TextStyle get SubTitleStyle {
+  return GoogleFonts.lato(
+    textStyle: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+        color: Get.isDarkMode ? Colors.grey[100] : Colors.grey[700]),
   );
 }
