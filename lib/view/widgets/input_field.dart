@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:to_do_app/ui/theme.dart';
+import 'package:to_do_app/view/theme.dart';
 
 class MyInputField extends StatelessWidget {
   final String title;
@@ -30,7 +30,6 @@ class MyInputField extends StatelessWidget {
             height: 52,
             margin: EdgeInsets.only(top: 8),
             padding: EdgeInsets.only(left: 14),
-            color: Colors.grey,
             decoration: BoxDecoration(
               border: Border.all(
                 color: Colors.grey,

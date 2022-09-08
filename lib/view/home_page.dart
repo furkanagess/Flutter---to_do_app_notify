@@ -5,9 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do_app/services/notification_services.dart';
 import 'package:to_do_app/services/theme_services.dart';
-import 'package:to_do_app/ui/theme.dart';
-import 'package:to_do_app/ui/widgets/add_task_bar.dart';
-import 'package:to_do_app/ui/widgets/button.dart';
+import 'package:to_do_app/view/theme.dart';
+import 'package:to_do_app/view/widgets/add_task_bar.dart';
+import 'package:to_do_app/view/widgets/button.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(),
+      backgroundColor: context.theme.backgroundColor,
       body: Column(
         children: [
           _addTaskBar(),
