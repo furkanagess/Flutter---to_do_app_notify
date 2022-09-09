@@ -55,8 +55,17 @@ class _HomePageState extends State<HomePage> {
     return Expanded(
       child: Obx(() {
         return ListView.builder(
-            itemCount: _taskController.taskList.length,
-            itemBuilder: (_, index) {
+          itemCount: _taskController.taskList.length,
+          itemBuilder: (_, index) {
+            Task task = _taskController.taskList[index];
+            if (task.repeat == "Daily") {
+              DateTime date = DateFormat.jm().parse(task.startTime.toString());
+              var myTime = DateFormat("HH:mm").format(date);
+              notifyHelper.scheduledNotification(
+                int.parse(myTime.toString().split(":")[0]),
+                int.parse(myTime.toString().split(":")[1]),
+                task,
+              );
               return AnimationConfiguration.staggeredList(
                 position: index,
                 child: SlideAnimation(
@@ -65,17 +74,39 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            _showBottomSheet(
-                                context, _taskController.taskList[index]);
+                            _showBottomSheet(context, task);
                           },
-                          child: TaskTile(_taskController.taskList[index]),
+                          child: TaskTile(task),
                         ),
                       ],
                     ),
                   ),
                 ),
               );
-            });
+            }
+            if (task.date == DateFormat.yMd().format(_selectedDate)) {
+              return AnimationConfiguration.staggeredList(
+                position: index,
+                child: SlideAnimation(
+                  child: FadeInAnimation(
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            _showBottomSheet(context, task);
+                          },
+                          child: TaskTile(task),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          },
+        );
       }),
     );
   }
@@ -104,6 +135,7 @@ class _HomePageState extends State<HomePage> {
                 : _bottomSheetButton(
                     label: "Task Completed",
                     onTap: () {
+                      _taskController.markTaskCompleted(task.id!);
                       Get.back();
                     },
                     clr: primaryClr,
@@ -113,7 +145,7 @@ class _HomePageState extends State<HomePage> {
               label: "Delete Task",
               onTap: () {
                 _taskController.delete(task);
-                _taskController.getTasks();
+
                 Get.back();
               },
               clr: Colors.red[300]!,
@@ -213,7 +245,9 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         onDateChange: (date) {
-          _selectedDate = date;
+          setState(() {
+            _selectedDate = date;
+          });
         },
       ),
     );
@@ -262,7 +296,7 @@ class _HomePageState extends State<HomePage> {
             title: "Theme Changed",
             body: Get.isDarkMode ? "Actived Light Theme" : "Actived Dark Theme",
           );
-          notifyHelper.scheduledNotification();
+          //notifyHelper.scheduledNotification();
         },
         child: Icon(
           Get.isDarkMode ? Icons.wb_sunny_outlined : Icons.nightlight_round,
